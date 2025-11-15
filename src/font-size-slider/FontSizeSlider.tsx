@@ -50,20 +50,25 @@ export const FontSizeSlider = ({ onFontSizeChange }: FontSizeSliderProps) => {
 			<label className="text-sm font-medium text-gray-700">
 				Font Size: {sizeLabels[fontSize as keyof typeof sizeLabels]}
 			</label>
-			<div className="flex space-x-2">
-				{["s", "m", "l"].map((size) => (
-					<button
-						key={size}
-						onClick={() => handleFontSizeChange(size)}
-						className={`flex-1 py-2 px-3 rounded text-sm font-medium transition-colors ${
-							fontSize === size
-								? "bg-blue-500 text-white"
-								: "bg-gray-200 text-gray-700 hover:bg-gray-300"
-						}`}
-					>
-						{sizeLabels[size as keyof typeof sizeLabels]}
-					</button>
-				))}
+			<div className="relative pt-1">
+				<input
+					type="range"
+					min="0"
+					max="2"
+					step="1"
+					value={["s", "m", "l"].indexOf(fontSize)}
+					onChange={(e) => {
+						const sizes = ["s", "m", "l"];
+						const newSize = sizes[parseInt(e.target.value)];
+						handleFontSizeChange(newSize);
+					}}
+					className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+				/>
+				<div className="flex justify-between text-xs text-gray-500 mt-1">
+					<span>S</span>
+					<span>M</span>
+					<span>L</span>
+				</div>
 			</div>
 		</div>
 	);
