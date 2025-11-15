@@ -1,62 +1,96 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/core";
+import { useState, useEffect, useRef } from "react";
+import { chineseChars } from "./assets/chinese-char";
+import Controller from "./controller/Controller";
+import Display from "./display/Display";
 import "./App.css";
 
 function App() {
-	const [greetMsg, setGreetMsg] = useState("");
-	const [name, setName] = useState("");
+	const [seconds, setSeconds] = useState<number>(10);
+	const [timeLeft, setTimeLeft] = useState<number>(10);
+	const [isRunning, setIsRunning] = useState<boolean>(false);
+	const [currentChars, setCurrentChars] = useState<string[]>([]);
+	const intervalRef = useRef<number | null>(null);
 
-	async function greet() {
-		// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-		setGreetMsg(await invoke("greet", { name }));
-	}
+	/* Function to get 5 random Chinese characters */
+	const getRandomChars = () => {
+		const shuffled = [...chineseChars].sort(() => 0.5 - Math.random());
+		return shuffled.slice(0, 5);
+	};
+
+	/* Start the timer */
+	const startTimer = () => {
+		if (seconds <= 0) return;
+
+		setIsRunning(true);
+		setTimeLeft(seconds);
+		setCurrentChars(getRandomChars());
+
+		if (intervalRef.current) {
+			window.clearInterval(intervalRef.current);
+		}
+
+		intervalRef.current = window.setInterval(() => {
+			setTimeLeft((prevTime) => {
+				if (prevTime <= 1) {
+					/* Timer reached 0, reset with new characters */
+					setCurrentChars(getRandomChars());
+					return seconds;
+				}
+				return prevTime - 1;
+			});
+		}, 1000);
+	};
+
+	/* Pause/resume the timer */
+	const toggleTimer = () => {
+		if (isRunning) {
+			setIsRunning(false);
+			if (intervalRef.current) {
+				window.clearInterval(intervalRef.current);
+			}
+		} else {
+			startTimer();
+		}
+	};
+
+	/* Reset the timer */
+	const resetTimer = () => {
+		setIsRunning(false);
+		setTimeLeft(seconds);
+		if (intervalRef.current) {
+			window.clearInterval(intervalRef.current);
+		}
+	};
+
+	/* Initialize with random characters */
+	useEffect(() => {
+		setCurrentChars(getRandomChars());
+		return () => {
+			if (intervalRef.current) {
+				window.clearInterval(intervalRef.current);
+			}
+		};
+	}, []);
 
 	return (
-		<main className="container">
-			<h1>Welcome to Tauri + React</h1>
-
-			<div className="row">
-				<a href="https://vite.dev" target="_blank">
-					<img
-						src="/vite.svg"
-						className="logo vite"
-						alt="Vite logo"
-					/>
-				</a>
-				<a href="https://tauri.app" target="_blank">
-					<img
-						src="/tauri.svg"
-						className="logo tauri"
-						alt="Tauri logo"
-					/>
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img
-						src={reactLogo}
-						className="logo react"
-						alt="React logo"
-					/>
-				</a>
-			</div>
-			<p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-			<form
-				className="row"
-				onSubmit={(e) => {
-					e.preventDefault();
-					greet();
+		<div className="min-h-screen bg-gray-100 relative">
+			<Controller
+				seconds={seconds}
+				timeLeft={timeLeft}
+				isRunning={isRunning}
+				onSecondsChange={(value) => {
+					setSeconds(value);
+					if (!isRunning) {
+						setTimeLeft(value);
+					}
 				}}
-			>
-				<input
-					id="greet-input"
-					onChange={(e) => setName(e.currentTarget.value)}
-					placeholder="Enter a name..."
-				/>
-				<button type="submit">Greet</button>
-			</form>
-			<p>{greetMsg}</p>
-		</main>
+				onStartTimer={startTimer}
+				onToggleTimer={toggleTimer}
+				onResetTimer={resetTimer}
+			/>
+
+			<Display currentChars={currentChars} />
+		</div>
 	);
 }
 
