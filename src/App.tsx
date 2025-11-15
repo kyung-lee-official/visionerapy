@@ -5,16 +5,22 @@ import Display from "./display/Display";
 import "./App.css";
 
 function App() {
-	const [seconds, setSeconds] = useState<number>(10);
-	const [timeLeft, setTimeLeft] = useState<number>(10);
+	const defaultSeconds = 9;
+	const [seconds, setSeconds] = useState<number>(defaultSeconds);
+	const [timeLeft, setTimeLeft] = useState<number>(defaultSeconds);
 	const [isRunning, setIsRunning] = useState<boolean>(false);
 	const [currentChars, setCurrentChars] = useState<string[]>([]);
 	const intervalRef = useRef<number | null>(null);
 
 	/* Function to get 5 random Chinese characters */
 	const getRandomChars = () => {
-		const shuffled = [...chineseChars].sort(() => 0.5 - Math.random());
-		return shuffled.slice(0, 5);
+		/* Use Fisher-Yates shuffle for proper random distribution */
+		const array = [...chineseChars];
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+		return array.slice(0, 5);
 	};
 
 	/* Start the timer */

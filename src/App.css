@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+/* Load Noto Sans SC font */
+@font-face {
+	font-family: 'Noto Sans SC';
+	src: url('./assets/NotoSansSC-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* Apply font app-wide */
+* {
+	font-family: 'Noto Sans SC', sans-serif;
+}
