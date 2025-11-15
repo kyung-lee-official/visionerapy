@@ -62,9 +62,9 @@ export const FontSizeSlider = ({ onFontSizeChange }: FontSizeSliderProps) => {
 						const newSize = sizes[parseInt(e.target.value)];
 						handleFontSizeChange(newSize);
 					}}
-					className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+					className="w-full h-2 bg-neutral-400 rounded-lg appearance-none cursor-pointer slider"
 				/>
-				<div className="flex justify-between text-xs text-gray-500 mt-1">
+				<div className="flex justify-between text-xs text-neutral-300 mt-1">
 					<span>S</span>
 					<span>M</span>
 					<span>L</span>

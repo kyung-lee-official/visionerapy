@@ -80,7 +80,7 @@ function App() {
 	}, []);
 
 	return (
-		<div className="min-h-screen bg-gray-100 relative">
+		<div className="min-h-screen bg-neutral-950 relative">
 			<Controller
 				seconds={seconds}
 				timeLeft={timeLeft}

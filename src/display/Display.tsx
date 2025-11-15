@@ -13,9 +13,9 @@ export const Display = ({ currentChars, fontSize }: DisplayProps) => {
 				{currentChars.map((char, index) => (
 					<div
 						key={index}
-						className={`${
-							sizeMap[fontSize as keyof typeof sizeMap]
-						} font-bold text-gray-800 bg-white p-8 rounded-xl shadow-2xl border-2 border-gray-200 min-w-32 min-h-32 flex items-center justify-center`}
+						className={`flex items-center justify-center min-w-32 min-h-32 p-8
+						${sizeMap[fontSize as keyof typeof sizeMap]} font-bold text-neutral-100 
+						rounded-xl shadow-2xl`}
 					>
 						{char}
 					</div>
