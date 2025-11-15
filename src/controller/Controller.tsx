@@ -1,3 +1,5 @@
+import { FontSizeSlider } from "../font-size-slider/FontSizeSlider";
+
 interface ControllerProps {
 	seconds: number;
 	timeLeft: number;
@@ -6,6 +8,7 @@ interface ControllerProps {
 	onToggleTimer: () => void;
 	onResetTimer: () => void;
 	onSecondsChange: (value: number) => void;
+	onFontSizeChange: (size: string) => void;
 }
 
 export const Controller = ({
@@ -16,6 +19,7 @@ export const Controller = ({
 	onToggleTimer,
 	onResetTimer,
 	onSecondsChange,
+	onFontSizeChange,
 }: ControllerProps) => {
 	/* Handle input change */
 	const handleSecondsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,6 +77,8 @@ export const Controller = ({
 					Reset
 				</button>
 			</div>
+
+			<FontSizeSlider onFontSizeChange={onFontSizeChange} />
 		</div>
 	);
 };

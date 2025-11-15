@@ -10,6 +10,7 @@ function App() {
 	const [timeLeft, setTimeLeft] = useState<number>(defaultSeconds);
 	const [isRunning, setIsRunning] = useState<boolean>(false);
 	const [currentChars, setCurrentChars] = useState<string[]>([]);
+	const [fontSize, setFontSize] = useState<string>("l"); // Default to large (text-8xl)
 	const intervalRef = useRef<number | null>(null);
 
 	/* Function to get 5 random Chinese characters */
@@ -93,9 +94,10 @@ function App() {
 				onStartTimer={startTimer}
 				onToggleTimer={toggleTimer}
 				onResetTimer={resetTimer}
+				onFontSizeChange={setFontSize}
 			/>
 
-			<Display currentChars={currentChars} />
+			<Display currentChars={currentChars} fontSize={fontSize} />
 		</div>
 	);
 }
