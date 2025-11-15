@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { chineseChars } from "./assets/chinese-char";
-import Controller from "./controller/Controller";
-import Display from "./display/Display";
+import { Controller } from "./controller/Controller";
+import { Display } from "./display/Display";
 import "./App.css";
 
 function App() {

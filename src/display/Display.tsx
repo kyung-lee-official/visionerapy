@@ -2,7 +2,7 @@ interface DisplayProps {
 	currentChars: string[];
 }
 
-const Display = ({ currentChars }: DisplayProps) => {
+export const Display = ({ currentChars }: DisplayProps) => {
 	return (
 		/* Center character display */
 		<div className="flex items-center justify-center min-h-screen">
@@ -19,5 +19,3 @@ const Display = ({ currentChars }: DisplayProps) => {
 		</div>
 	);
 };
-
-export default Display;

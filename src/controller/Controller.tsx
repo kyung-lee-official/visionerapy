@@ -8,7 +8,7 @@ interface ControllerProps {
 	onSecondsChange: (value: number) => void;
 }
 
-const Controller = ({
+export const Controller = ({
 	seconds,
 	timeLeft,
 	isRunning,
@@ -76,5 +76,3 @@ const Controller = ({
 		</div>
 	);
 };
-
-export default Controller;
